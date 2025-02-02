@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    
+    <!-- Corrected Semantic UI CSS Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.css">
+    
+    <style>
+        body {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <form class="ui form" id="registrationForm">
+        <div class="field">
+            <label>First Name</label>
+            <input type="text" id="first-name" name="first-name" placeholder="First Name" required>
+            <span class="error" id="first-name-error">First name is required</span>
+        </div>
+
+        <div class="field">
+            <label>Last Name</label>
+            <input type="text" id="last-name" name="last-name" placeholder="Last Name" required>
+            <span class="error" id="last-name-error">Last name is required</span>
+        </div>
+
+        <div class="field">
+            <label>Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <span class="error" id="password-error">Password must be at least 8 characters, include uppercase, lowercase, number, and special character</span>
+        </div>
+
+        <div class="field">
+            <label>Confirm Password</label>
+            <input type="password" id="confirm-password" name="confirm-password" placeholder="Re-enter your password" required>
+            <span class="error" id="confirm-password-error">Passwords do not match</span>
+        </div>
+
+        <button class="ui button primary" type="submit" id="register-btn" disabled>Register</button>
+    </form>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.js"></script>
+
+    <script>
+        const firstName = document.getElementById("first-name");
+        const lastName = document.getElementById("last-name");
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirm-password");
+        const registerBtn = document.getElementById("register-btn");
+
+        const firstNameError = document.getElementById("first-name-error");
+        const lastNameError = document.getElementById("last-name-error");
+        const passwordError = document.getElementById("password-error");
+        const confirmPasswordError = document.getElementById("confirm-password-error");
+
+        function validateForm() {
+            let isValid = true;
+
+            
+            if (firstName.value.trim() === "") {
+                firstNameError.style.display = "block";
+                isValid = false;
+            } else {
+                firstNameError.style.display = "none";
+            }
+
+            
+            if (lastName.value.trim() === "") {
+                lastNameError.style.display = "block";
+                isValid = false;
+            } else {
+                lastNameError.style.display = "none";
+            }
+
+           
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordRegex.test(password.value)) {
+                passwordError.style.display = "block";
+                isValid = false;
+            } else {
+                passwordError.style.display = "none";
+            }
+
+            
+            if (confirmPassword.value !== password.value || confirmPassword.value === "") {
+                confirmPasswordError.style.display = "block";
+                isValid = false;
+            } else {
+                confirmPasswordError.style.display = "none";
+            }
+
+            
+            registerBtn.disabled = !isValid;
+        }
+
+        
+        firstName.addEventListener("input", validateForm);
+        lastName.addEventListener("input", validateForm);
+        password.addEventListener("input", validateForm);
+        confirmPassword.addEventListener("input", validateForm);
+
+       
+        document.getElementById("registrationForm").addEventListener("submit", function(event) {
+            validateForm();
+            if (registerBtn.disabled) {
+                event.preventDefault();
+            } else {
+                alert("Registration successful! ✅");
+            }
+        });
+    </script>
+
+</body>
+</html>
